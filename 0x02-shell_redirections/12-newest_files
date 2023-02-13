@@ -1,2 +1,2 @@
 #!/bin/bash
-sdfgh
+head -n 10 /etc/passwd
