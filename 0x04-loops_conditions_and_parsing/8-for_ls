@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This script lists the content of the current directory with modified names.
+
+# Use a for loop to list directory contents
+for item in *; do
+    # Check if the item is a regular file (not a directory) and not hidden
+    if [ -f "$item" ] && [[ "$item" != .* ]]; then
+        # Use 'cut' to extract the part of the name after the first dash
+        modified_name=$(echo "$item" | cut -d'-' -f2-)
+        echo "$modified_name"
+    fi
+done
