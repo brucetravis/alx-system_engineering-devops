@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Find PIDs of processes with the name "7-highlander"
+highlander_pid=$(pgrep -f "7-highlander")
+
+# Send SIGTERM signal to 7-highlander
+kill -s SIGTERM "$highlander_pid"

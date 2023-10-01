@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Start the infinite loop script
+./4-to_infinity_and_beyond &
+
+# Capture the PID of the background process
+bg_process_pid=$!
+
+# Run the "don't stop me now" script in another terminal
+./5-dont_stop_me_now
+
+# Stop the infinite loop process using kill
+kill "$bg_process_pid"

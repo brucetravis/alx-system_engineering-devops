@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Define paths and names
+process_script="./manage_my_process"
+pid_file="/var/run/my_process.pid"
+
+# Function to start the process
+start_process() {
+    if [ -e "$pid_file" ]; then
+        echo "Error: manage_my_process is already running."
+        exit 1
+    fi
+
+    $process_script &
+    echo $! > "$pid_file"
+    echo "manage_my_process started"
+}
+
+# Function to stop the process
+stop_process() {
+    if [ ! -e "$pid_file" ]; then
+        echo "Error: manage_my_process is not running."
+        exit 1
+    fi
+
+    pid=$(cat "$pid_file")
+    kill "$pid"
+    rm -f "$pid_file"
+    echo "manage_my_process stopped"
+}
+
+# Function to restart the process
+restart_process() {
+    stop_process
+    start_process
+    echo "manage_my_process restarted"
+}
+
+# Check the number of arguments
+if [ "$#" -eq 0 ]; then
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+fi
+
+# Handle the argument
+case "$1" in
+    start)
+        start_process
+        ;;
+    stop)
+        stop_process
+        ;;
+    restart)
+        restart_process
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
