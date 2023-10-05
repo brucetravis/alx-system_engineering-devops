@@ -1,7 +1,4 @@
 #!/bin/bash
+# Displays a list of currently running processes.
 
-# Display header
-printf "%-10s %-5s %-5s %-8s %-8s %-10s %-5s %-8s %-8s %s\n" "USER" "PID" "%CPU" "%MEM" "VSZ" "RSS" "TTY" "STAT" "START" "COMMAND"
-
-# Display processes
-ps axo user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,comm --forest | sed -n '1!p'
+ps -auxf
