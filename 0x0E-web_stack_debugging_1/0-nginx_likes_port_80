@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Install Nginx if not already installed
+apt-get update
+apt-get install -y nginx
+
+# Configure Nginx to listen on port 80
+echo "server {
+    listen 80;
+    server_name _;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+    }
+}" > /etc/nginx/sites-available/default
+
+# Check Nginx configuration
+nginx -t
+
+# Restart Nginx
+service nginx restart
