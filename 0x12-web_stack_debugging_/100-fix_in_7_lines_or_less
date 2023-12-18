@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sed -i 's/user\s*[^;]*;/user nginx;/g' /etc/nginx/nginx.conf
+sed -i 's/listen\s*[^:]*:80;/listen 0.0.0.0:8080;/g' /etc/nginx/sites-enabled/default
+service nginx restart
