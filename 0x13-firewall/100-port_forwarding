@@ -26,8 +26,13 @@ ufw allow 80/tcp
 # Allow HTTPS (port 443)
 ufw allow 443/tcp
 
-# Forward port 8080 to port 80
-sh -c 'echo "*nat\n:PREROUTING ACCEPT [0:0]\n-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80\nCOMMIT" > /etc/ufw/before.rules'
+# Add the port forwarding directly to ufw configuration
+echo "### port forwarding from 8080 to 80" >> /etc/ufw/before.rules
+echo "*nat" >> /etc/ufw/before.rules
+echo ":PREROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
+echo "-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80" >> /etc/ufw/before.rules
+echo "COMMIT" >> /etc/ufw/before.rules
 
 # Enable ufw
 ufw --force enable
+
