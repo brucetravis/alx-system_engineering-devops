@@ -1,0 +1,11 @@
+#!/bin/bash
+# 5-mysql_backup
+
+# MySQL dump and compression
+mysqldump -u root -p --all-databases > backup.sql
+tar -czvf "$(date +'%d-%m-%Y').tar.gz" backup.sql
+
+# Clean up the temporary dump file
+rm backup.sql
+
+echo "Backup completed successfully."
