@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 # 5-mysql_backup
 
 # MySQL dump and compression
