@@ -1,13 +1,22 @@
 #!/usr/bin/python3
+"""
+Script to fetch employee TODO list progress from
+the JSONPlaceholder API and export it to a JSON file.
 
+Usage: python3 script.py <employee_id>
 
+Author: brucetravis
+"""
+
+import json
 import requests
 import sys
-import json
+
 
 def get_employee_todo_progress(employee_id):
     """
-    Fetches employee TODO list progress from the JSONPlaceholder API.
+    Fetches employee TODO list progress
+    from the JSONPlaceholder API.
 
     Args:
         employee_id (int): The ID of the employee.
@@ -16,15 +25,15 @@ def get_employee_todo_progress(employee_id):
         list: A list of dictionaries containing task details.
     """
     base_url = "https://jsonplaceholder.typicode.com"
-    
+
     # Fetch user information
     user_response = requests.get(f"{base_url}/users/{employee_id}")
     user_data = user_response.json()
-    
+
     # Fetch user's TODO list
     todo_response = requests.get(f"{base_url}/todos?userId={employee_id}")
     todo_data = todo_response.json()
-    
+
     # Collect TODO progress data
     todo_progress_data = []
     for task in todo_data:
@@ -34,8 +43,9 @@ def get_employee_todo_progress(employee_id):
             "username": user_data.get('username', 'Unknown')
         }
         todo_progress_data.append(task_data)
-    
+
     return {str(employee_id): todo_progress_data}
+
 
 def export_to_json(employee_id, todo_progress_data):
     """
@@ -53,6 +63,7 @@ def export_to_json(employee_id, todo_progress_data):
         json.dump(todo_progress_data, json_file)
 
     print(f"Data exported to {filename}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
