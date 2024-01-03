@@ -8,13 +8,21 @@ Requirements:
     Format must be:
         {
             "USER_ID": [
-               {"username": "Bruce Ambundo", "task": "0-gather_data_from_an_API.py", "completed": TASK_COMPLETED_STATUS},
-                {"username": "Bruce Ambundo", "task": "0-gather_data_from_an_API.py", "completed": TASK_COMPLETED_STATUS},
+               {"username": "Bruce Ambundo", "task":
+               "0-gather_data_from_an_API.py",
+               "completed": TASK_COMPLETED_STATUS},
+               {"username": "Bruce Ambundo", "task":
+                "0-gather_data_from_an_API.py",
+                "completed": TASK_COMPLETED_STATUS},
                 ...
             ],
             "USER_ID": [
-                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
-                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
+                {"username": "Bruce Ambundo", "task": 
+                "0-gather_data_from_an_API.py",
+                "completed": TASK_COMPLETED_STATUS},
+                {"username": "Bruce Ambundo", "task":
+                "0-gather_data_from_an_API.py",
+                "completed": TASK_COMPLETED_STATUS},
                 ...
             ],
             ...
@@ -51,7 +59,7 @@ def get_all_employees_todo_progress():
                 "username": user_data.get('username', 'Unknown'),
                 "task": task.get('title', 'Untitled'),
                 "completed": task.get('completed', False)
-            }
+                }
             todo_progress_data.append(task_data)
 
         all_employees_data[str(user_id)] = todo_progress_data
@@ -64,7 +72,8 @@ def export_to_json(todo_progress_data):
     Exports TODO progress data for all employees to a JSON file.
 
     Args:
-        todo_progress_data (dict): Dictionary containing task details for all employees.
+        todo_progress_data (dict): Dictionary 
+        containing task details for all employees.
 
     Returns:
         None
