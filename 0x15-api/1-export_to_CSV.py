@@ -12,9 +12,9 @@ calculates the progress, and exports the data to a CSV file.
 Author: Your Name
 """
 
+import csv
 import requests
 import sys
-import csv
 
 
 def get_employee_todo_progress(employee_id):
