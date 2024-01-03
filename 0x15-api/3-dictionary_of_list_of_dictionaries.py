@@ -1,4 +1,14 @@
 #!/usr/bin/python3
+"""
+Script to retrieve and display TODO list progress for a specific employee.
+
+Usage: python3 script.py <employee_id>
+
+This script fetches user information and their TODO list from the JSONPlaceholder API,
+calculates the progress, and displays completed tasks.
+
+Author: Bruce Ambundo
+"""
 import requests
 import json
 

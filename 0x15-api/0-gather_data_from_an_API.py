@@ -1,53 +1,81 @@
 #!/usr/bin/python3
 """
-Script to retrieve and display TODO list progress for a specific employee.
+Fetches TODO list progress for all employees from the JSONPlaceholder API
+and exports the data in JSON format.
 
-Usage: python3 script.py <employee_id>
-
-This script fetches user information and their TODO list from the JSONPlaceholder API,
-calculates the progress, and displays completed tasks.
-
-Author: Bruce Ambundo
+Requirements:
+    Records all tasks from all employees
+    Format must be:
+        {
+            "USER_ID": [
+                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
+                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
+                ...
+            ],
+            "USER_ID": [
+                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
+                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
+                ...
+            ],
+            ...
+        }
+    File name must be: todo_all_employees.json
 """
 
 import requests
-import sys
+import json
 
-def get_employee_todo_progress(employee_id):
+
+def get_all_employees_todo_progress():
     """
-    Fetches employee TODO list progress from the JSONPlaceholder API.
+    Fetches TODO list progress for all employees from the JSONPlaceholder API.
+
+    Returns:
+        dict: Dictionary containing task details for all employees.
+    """
+    base_url = "https://jsonplaceholder.typicode.com/users"
+
+    all_employees_data = {}
+
+    # Fetch TODO progress for each employee
+    for user_id in range(1, 11):  # Assuming 10 employees based on the example
+        user_response = requests.get(f"{base_url}/{user_id}")
+        user_data = user_response.json()
+
+        todo_response = requests.get(f"{base_url}/{user_id}/todos")
+        todo_data = todo_response.json()
+
+        todo_progress_data = []
+        for task in todo_data:
+            task_data = {
+                "username": user_data.get('username', 'Unknown'),
+                "task": task.get('title', 'Untitled'),
+                "completed": task.get('completed', False)
+            }
+            todo_progress_data.append(task_data)
+
+        all_employees_data[str(user_id)] = todo_progress_data
+
+    return all_employees_data
+
+
+def export_to_json(todo_progress_data):
+    """
+    Exports TODO progress data for all employees to a JSON file.
 
     Args:
-        employee_id (int): The ID of the employee.
+        todo_progress_data (dict): Dictionary containing task details for all employees.
 
     Returns:
         None
     """
-    base_url = "https://jsonplaceholder.typicode.com"
-    
-    # Fetch user information
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
-    user_data = user_response.json()
-    
-    # Fetch user's TODO list
-    todo_response = requests.get(f"{base_url}/todos?userId={employee_id}")
-    todo_data = todo_response.json()
-    
-    # Calculate TODO progress
-    total_tasks = len(todo_data)
-    completed_tasks = sum(task['completed'] for task in todo_data)
-    
-    # Display information
-    print(f"Employee {user_data.get('name', 'Unknown')} is done with tasks({completed_tasks}/{total_tasks}):")
-    
-    for task in todo_data:
-        if task.get('completed', False):
-            print(f"\t{task.get('title', 'Untitled')}")
+    filename = "todo_all_employees.json"
+    with open(filename, mode='w') as json_file:
+        json.dump(todo_progress_data, json_file)
+
+    print(f"Data exported to {filename}")
+
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python3 script.py <employee_id>")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-    get_employee_todo_progress(employee_id)
+    todo_progress_data = get_all_employees_todo_progress()
+    export_to_json(todo_progress_data)

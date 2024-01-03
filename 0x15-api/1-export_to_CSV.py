@@ -1,7 +1,19 @@
 #!/usr/bin/python3
+"""
+Script to fetch employee TODO list progress from the JSONPlaceholder API and export it to a CSV file.
+
+Usage: python3 script.py <employee_id>
+
+This script fetches user information and their TODO list from the JSONPlaceholder API,
+calculates the progress, and exports the data to a CSV file.
+
+Author: Your Name
+"""
+
 import requests
 import sys
 import csv
+
 
 def get_employee_todo_progress(employee_id):
     """
@@ -14,15 +26,15 @@ def get_employee_todo_progress(employee_id):
         list: A list of dictionaries containing task details.
     """
     base_url = "https://jsonplaceholder.typicode.com"
-    
+
     # Fetch user information
     user_response = requests.get(f"{base_url}/users/{employee_id}")
     user_data = user_response.json()
-    
+
     # Fetch user's TODO list
     todo_response = requests.get(f"{base_url}/todos?userId={employee_id}")
     todo_data = todo_response.json()
-    
+
     # Collect TODO progress data
     todo_progress_data = []
     for task in todo_data:
@@ -33,8 +45,9 @@ def get_employee_todo_progress(employee_id):
             "TASK_TITLE": task.get('title', 'Untitled')
         }
         todo_progress_data.append(task_data)
-    
+
     return todo_progress_data
+
 
 def export_to_csv(employee_id, todo_progress_data):
     """
@@ -59,6 +72,7 @@ def export_to_csv(employee_id, todo_progress_data):
         writer.writerows(todo_progress_data)
 
     print(f"Data exported to {filename}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
