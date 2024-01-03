@@ -4,17 +4,20 @@ Script to retrieve and display TODO list progress for a specific employee.
 
 Usage: python3 script.py <employee_id>
 
-This script fetches user information and their TODO list from the JSONPlaceholder API,
+This script fetches user information and their
+TODO list from the JSONPlaceholder API,
 calculates the progress, and displays completed tasks.
 
 Author: Bruce Ambundo
 """
-import requests
 import json
+import requests
+
 
 def get_all_employees_todo_progress():
     """
-    Fetches TODO list progress for all employees from the JSONPlaceholder API.
+    Fetches TODO list progress for all employees
+    from the JSONPlaceholder API.
 
     Returns:
         dict: Dictionary containing task details for all employees.
@@ -40,16 +43,19 @@ def get_all_employees_todo_progress():
             }
             todo_progress_data.append(task_data)
 
-        all_employees_data[str(user_id)] = todo_progress_data
+            all_employees_data[str(user_id)] = todo_progress_data
 
     return all_employees_data
 
+
 def export_to_json(todo_progress_data):
     """
-    Exports TODO progress data for all employees to a JSON file.
+    Exports TODO progress data for all
+    employees to a JSON file.
 
     Args:
-        todo_progress_data (dict): Dictionary containing task details for all employees.
+        todo_progress_data (dict): Dictionary 
+        containing task details for all employees.
 
     Returns:
         None
@@ -59,6 +65,7 @@ def export_to_json(todo_progress_data):
         json.dump(todo_progress_data, json_file)
 
     print(f"Data exported to {filename}")
+
 
 if __name__ == "__main__":
     todo_progress_data = get_all_employees_todo_progress()
