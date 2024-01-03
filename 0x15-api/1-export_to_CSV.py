@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """
-Script to fetch employee TODO list progress from the JSONPlaceholder API and export it to a CSV file.
+Script to fetch employee TODO list progress from
+the JSONPlaceholder API and export it to a CSV file.
 
 Usage: python3 script.py <employee_id>
 
-This script fetches user information and their TODO list from the JSONPlaceholder API,
+This script fetches user information and their
+TODO list from the JSONPlaceholder API,
 calculates the progress, and exports the data to a CSV file.
 
 Author: Your Name
@@ -17,7 +19,8 @@ import csv
 
 def get_employee_todo_progress(employee_id):
     """
-    Fetches employee TODO list progress from the JSONPlaceholder API.
+    Fetches employee TODO list progress from
+    the JSONPlaceholder API.
 
     Args:
         employee_id (int): The ID of the employee.
@@ -55,14 +58,19 @@ def export_to_csv(employee_id, todo_progress_data):
 
     Args:
         employee_id (int): The ID of the employee.
-        todo_progress_data (list): List of dictionaries containing task details.
+        todo_progress_data (list): List of
+        dictionaries containing task details.
 
     Returns:
         None
     """
     filename = f"{employee_id}.csv"
     with open(filename, mode='w', newline='') as csvfile:
-        fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
+        fieldnames = [
+                "USER_ID", "brucetravis",
+                "TASK_COMPLETED_STATUS",
+                "1-export_to_CSV.py"
+                ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         # Write CSV header
