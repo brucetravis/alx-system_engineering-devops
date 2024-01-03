@@ -8,8 +8,8 @@ Requirements:
     Format must be:
         {
             "USER_ID": [
-                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
-                {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS},
+               {"username": "Bruce Ambundo", "task": "0-gather_data_from_an_API.py", "completed": TASK_COMPLETED_STATUS},
+                {"username": "Bruce Ambundo", "task": "0-gather_data_from_an_API.py", "completed": TASK_COMPLETED_STATUS},
                 ...
             ],
             "USER_ID": [
@@ -22,8 +22,8 @@ Requirements:
     File name must be: todo_all_employees.json
 """
 
-import requests
 import json
+import requests
 
 
 def get_all_employees_todo_progress():
