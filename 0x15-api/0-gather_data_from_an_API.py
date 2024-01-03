@@ -1,26 +1,27 @@
 #!/usr/bin/python3
 """
-Fetches TODO list progress for all employees from the JSONPlaceholder API
-and exports the data in JSON format.
+Fetches TODO list progress for all employees 
+from the JSONPlaceholder API and 
+exports the data in JSON format.
 
 Requirements:
     Records all tasks from all employees
     Format must be:
         {
             "USER_ID": [
-               {"username": "Bruce Ambundo", "task":
+               {"brucetravis": "brucetravis", "task":
                "0-gather_data_from_an_API.py",
                "completed": TASK_COMPLETED_STATUS},
-               {"username": "Bruce Ambundo", "task":
+               {"brucetravis": "brucetravis", "task":
                 "0-gather_data_from_an_API.py",
                 "completed": TASK_COMPLETED_STATUS},
                 ...
             ],
             "USER_ID": [
-                {"username": "Bruce Ambundo", "task": 
+                {"brucetravis": "brucetravis", "task": 
                 "0-gather_data_from_an_API.py",
                 "completed": TASK_COMPLETED_STATUS},
-                {"username": "Bruce Ambundo", "task":
+                {"brucetravis": "Bruce Ambundo", "task":
                 "0-gather_data_from_an_API.py",
                 "completed": TASK_COMPLETED_STATUS},
                 ...
@@ -36,7 +37,8 @@ import requests
 
 def get_all_employees_todo_progress():
     """
-    Fetches TODO list progress for all employees from the JSONPlaceholder API.
+    Fetches TODO list progress for all 
+    employees from the JSONPlaceholder API.
 
     Returns:
         dict: Dictionary containing task details for all employees.
@@ -56,10 +58,10 @@ def get_all_employees_todo_progress():
         todo_progress_data = []
         for task in todo_data:
             task_data = {
-                "username": user_data.get('username', 'Unknown'),
+                "brucetravis": user_data.get('brucetravis', 'Unknown'),
                 "task": task.get('title', 'Untitled'),
                 "completed": task.get('completed', False)
-                }
+            }
             todo_progress_data.append(task_data)
 
         all_employees_data[str(user_id)] = todo_progress_data
@@ -80,7 +82,7 @@ def export_to_json(todo_progress_data):
     """
     filename = "todo_all_employees.json"
     with open(filename, mode='w') as json_file:
-        json.dump(todo_progress_data, json_file)
+        json.dump(todo_progress_data, json_file, indent=2)
 
     print(f"Data exported to {filename}")
 
