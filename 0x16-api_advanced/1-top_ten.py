@@ -1,18 +1,15 @@
 #!/usr/bin/python3
 """
-Queries the Reddit API and prints the titles
-of the first 10 hot posts for a given subreddit.
+Queries the Reddit API and prints the titles of the first 10 hot posts for a given subreddit.
 
 Usage: top_ten(subreddit)
 """
 
 import requests
 
-
 def top_ten(subreddit):
     """
-    Queries the Reddit API and prints the titles
-    of the first 10 hot posts for a given subreddit.
+    Queries the Reddit API and prints the titles of the first 10 hot posts for a given subreddit.
 
     Args:
         subreddit (str): The name of the subreddit.
@@ -20,7 +17,7 @@ def top_ten(subreddit):
     Returns:
         None
     """
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
     headers = {'User-Agent': 'my-reddit-client/1.0'}  # Set a custom User-Agent
 
     try:
@@ -28,25 +25,23 @@ def top_ten(subreddit):
         response.raise_for_status()
 
         data = response.json()
-        posts = data.get('data', {}).get('children', [])
 
-        if not posts:
-            print("No posts found.")
-            return
+        if 'data' in data and 'children' in data['data']:
+            posts = data['data']['children']
+            for post in posts:
+                print(post['data']['title'])
 
-        for post in posts[:10]:
-            title = post['data']['title']
-            print(title)
+        else:
+            print(None)
 
     except requests.exceptions.HTTPError as http_err:
-        if response.status_code == 404:
-            print(f"Error: Subreddit '{subreddit}' not found.")
+        if response.status_code // 100 == 4:
+            print(None)
         else:
-            print(f"HTTP error occurred: {http_err}")
+            print("HTTP error occurred: {}".format(http_err))
 
     except Exception as err:
-        print(f"An error occurred: {err}")
-
+        print("An error occurred: {}".format(err))
 
 if __name__ == '__main__':
     import sys
