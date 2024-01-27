@@ -1,20 +1,22 @@
-cription: Puppet manifest to optimize Nginx configuration
+# Puppet manifest to optimize Nginx configuration
 
-# Install required package(s) or module(s)
-package { 'nginx':
-  ensure => installed,
+# Define a class to manage Nginx configuration
+class nginx_config {
+
+    # Define the main Nginx configuration file
+    file { '/etc/nginx/nginx.conf':
+        ensure  => file,
+        content => template('nginx/nginx.conf.erb'),
+        notify  => Service['nginx'],
+    }
+
+    # Define the Nginx service
+    service { 'nginx':
+        ensure  => running,
+        enable  => true,
+        require => File['/etc/nginx/nginx.conf'],
+    }
 }
 
-# Adjust Nginx configuration to handle more concurrent connections
-file { '/etc/nginx/nginx.conf':
-  ensure  => file,
-  content => template('path/to/nginx.conf.erb'), # Use an ERB template to customize configuration
-  notify  => Service['nginx'],
-}
-
-# Define Nginx service
-service { 'nginx':
-  ensure     => running,
-  enable     => true,
-  hasrestart => true,
-}
+# Apply the nginx_config class
+include nginx_confign
