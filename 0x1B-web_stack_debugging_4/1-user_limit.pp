@@ -1,24 +1,21 @@
-cription: Puppet manifest to adjust user limits for the holberton user
+# Puppet manifest to adjust OS configuration for holberton user
 
-# Define a custom limit for the holberton user
-user { 'holberton':
-  limitssh   => '5000:5000', # Set the limit as needed
-  managehome => true,
+# Adjust limits for the holberton user
+file { '/etc/security/limits.conf':
+    ensure  => present,
+    content => "holberton hard nofile 1024\nholberton soft nofile 1024\n",
 }
 
-# Apply the changes to the user limits
-exec { 'apply_user_limits':
-  command     => 'ulimit -n 5000', # Set the limit as needed
-  user        => 'holberton',
-  path        => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-  subscribe   => User['holberton'],
-  refreshonly => true,
+# Apply changes to the holberton user's session
+exec { 'reload_pam_limits':
+    command     => 'pam_limits.so',
+    path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+    refreshonly => true,
+    subscribe   => File['/etc/security/limits.conf'],
 }
 
-# Restart the ssh service to apply the changes
-service { 'ssh':
-  ensure     => 'running',
-  enable     => true,
-  hasrestart => true,
-  subscribe  => Exec['apply_user_limits'],
+# Notify login changes
+notify { 'OS configuration adjusted for holberton user':
+    message => 'OS configuration adjusted for holberton user',
+    require => Exec['reload_pam_limits'],
 }
